@@ -29,3 +29,22 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    
+  deploy:
+    name: Deploy to Heroku
+    needs: [build]
+    if: ${{ always() && !cancelled() && needs.build.result == 'success' }}
+    runs-on : ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Heroku  Deploy
+      uses: AkhileshNS/heroku-deploy@v3.12.12
+      with:
+       # Email Linked to your Heroku Account
+       heroku_email: venu.shastri@gmail.com
+      # Your Heroku API Key
+       heroku_api_key: 3a9b8c3d-16b9-4afb-92e8-3f5e837c2f64
+    # Your Heroku App Name
+       heroku_app_name: node-microservice-two
+   
